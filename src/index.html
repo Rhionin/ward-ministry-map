@@ -40,10 +40,21 @@
 				},
 			}
 			map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+			loadWardData();
 		}
 
-		function codeAddress() {
-			let address = document.getElementById('address').value;
+		function loadWardData() {
+			const addressesInWard = [
+				'1920 S 500 W, Lehi, UT 84043',
+				'636 W 1950 S, Lehi, UT 84043',
+				'2018 S 575 W, Lehi, UT 84043',
+			];
+
+			addressesInWard.forEach(codeAddress);
+		}
+
+		function codeAddress(address) {
 			geocoder.geocode({ 'address': address }, function (results, status) {
 				if (status == 'OK') {
 					map.setCenter(results[0].geometry.location);
@@ -56,6 +67,11 @@
 				}
 			});
 		}
+
+		function codeAddressFromForm() {
+			codeAddress(document.getElementById('address').value);
+		}
+
 	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=API_KEY" async defer></script>
 </head>
@@ -63,7 +79,7 @@
 <body onload="initialize()">
 	<div>
 		<input id="address" type="textbox" value="1920 S 500 W, Lehi, UT 84043">
-		<input type="button" value="Encode" onclick="codeAddress()">
+		<input type="button" value="Encode" onclick="codeAddressFromForm()">
 	</div>
 	<div id="map"></div>
 </body>
